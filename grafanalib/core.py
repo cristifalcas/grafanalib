@@ -1484,6 +1484,7 @@ class Table(object):
     :param id: panel id
     :param links: additional web links
     :param minSpan: minimum span number
+    :param options: blabla
     :param pageSize: rows per page (None is unlimited)
     :param scroll: scroll the table instead of displaying in full
     :param showHeader: show the table header
@@ -1508,6 +1509,7 @@ class Table(object):
     id = attr.ib(default=None)
     links = attr.ib(default=attr.Factory(list))
     minSpan = attr.ib(default=None)
+    options = attr.ib(default=None)
     pageSize = attr.ib(default=None)
     repeat = attr.ib(default=None)
     scroll = attr.ib(default=True, validator=instance_of(bool))
@@ -1520,6 +1522,16 @@ class Table(object):
 
     transform = attr.ib(default=COLUMNS_TRANSFORM)
     transparent = attr.ib(default=False, validator=instance_of(bool))
+    
+    options=dict(
+        "dataLinks"= [
+          dict(
+            "targetBlank"= True,
+            "title"= "test_datalink",
+            "url"= "http://$${__field.name}﻿.com/﻿$${__series.name}﻿?﻿${__url_time_range}﻿&$var-gcp_project=${gcp_project}&${__all_variables}"
+          )
+        ]
+      )
 
     @styles.default
     def styles_default(self):
@@ -1563,6 +1575,7 @@ class Table(object):
             'id': self.id,
             'links': self.links,
             'minSpan': self.minSpan,
+            'options': self.options,
             'pageSize': self.pageSize,
             'repeat': self.repeat,
             'scroll': self.scroll,
